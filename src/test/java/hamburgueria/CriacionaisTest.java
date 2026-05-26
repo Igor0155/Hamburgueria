@@ -3,7 +3,17 @@ package hamburgueria.criacionais;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import hamburgueria.Produto; // Do nosso padrão Composite antigo
+import hamburgueria.Produto;
+import hamburgueria.criacionais.CaixaLanche;
+import hamburgueria.criacionais.ConfiguracaoRestaurante;
+import hamburgueria.criacionais.CopoBebida;
+import hamburgueria.criacionais.EmbalagemFactory;
+import hamburgueria.criacionais.FabricaDelivery;
+import hamburgueria.criacionais.HamburguerPersonalizado;
+import hamburgueria.criacionais.Pagamento;
+import hamburgueria.criacionais.PagamentoFactory;
+import hamburgueria.criacionais.Pedido;
+import hamburgueria.criacionais.PedidoBuilder;
 
 class CriacionaisTest {
 
@@ -14,8 +24,6 @@ class CriacionaisTest {
 
         config1.abrirRestaurante();
 
-        // Se config1 abriu, config2 também deve ver aberto, pois são o mesmo objeto em
-        // memória
         assertTrue(config2.isAberto());
         assertSame(config1, config2);
     }
@@ -39,7 +47,7 @@ class CriacionaisTest {
 
     @Test
     void deveConstruirPedidoComBuilder() {
-        // Aqui juntamos todos os padrões criacionais e estruturais!
+
         Pedido pedido = new PedidoBuilder()
                 .comCliente("Igor Gabriel")
                 .comPagamento("CARTAO")
@@ -60,5 +68,27 @@ class CriacionaisTest {
         } catch (IllegalArgumentException e) {
             assertEquals("O pedido precisa de um cliente.", e.getMessage());
         }
+    }
+
+    @Test
+    void deveClonarHamburguerEPermitirAlteracao() {
+        HamburguerPersonalizado lancheOriginal = new HamburguerPersonalizado(
+                "Brioche", "Picanha", "Prato", "Maionese Verde");
+
+        HamburguerPersonalizado lancheClone = lancheOriginal.clone();
+
+        // 1. Verifica se os valores foram copiados perfeitamente
+        assertEquals("Brioche", lancheClone.getPao());
+        assertEquals("Picanha", lancheClone.getCarne());
+
+        // 2. Altera um ingrediente apenas no clone
+        lancheClone.setPao("Integral");
+
+        // 3. Verifica se a alteração ocorreu no clone e o original continuou intacto
+        assertEquals("Integral", lancheClone.getPao());
+        assertEquals("Brioche", lancheOriginal.getPao());
+
+        // 4. Garante que são duas instâncias diferentes na memória
+        assertNotSame(lancheOriginal, lancheClone);
     }
 }

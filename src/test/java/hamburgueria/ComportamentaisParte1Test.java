@@ -40,7 +40,6 @@ class ComportamentaisParte1Test {
 
         assertEquals("Novo", pedido.getNomeEstado());
 
-        // Tenta finalizar direto (deve falhar por causa da regra do State)
         assertFalse(pedido.finalizar());
 
         // Fluxo correto

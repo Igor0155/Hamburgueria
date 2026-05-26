@@ -12,7 +12,7 @@ public class EstadoNovo implements EstadoPedido {
 
     public boolean finalizar(PedidoFluxo pedido) {
         return false;
-    } // Não pode ir de Novo direto pra Pronto
+    }
 
     public boolean entregar(PedidoFluxo pedido) {
         return false;
