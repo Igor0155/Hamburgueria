@@ -72,4 +72,29 @@ class FinalPatternsTest {
 
         assertEquals(2, IngredienteFactory.getTotalTiposCriados());
     }
+
+    @Test
+    void deveIterarPelosPedidosDaFila() {
+        FilaPedidosCozinha fila = new FilaPedidosCozinha();
+        fila.adicionarPedido("Pedido #101 - X-Burguer");
+        fila.adicionarPedido("Pedido #102 - Combo Master");
+        fila.adicionarPedido("Pedido #103 - Batata Frita");
+
+        // Extrai o iterador da coleção
+        PedidoIterator iterador = fila.criarIterador();
+
+        // Navega sequencialmente usando hasNext() e next()
+        assertTrue(iterador.hasNext());
+        assertEquals("Pedido #101 - X-Burguer", iterador.next());
+
+        assertTrue(iterador.hasNext());
+        assertEquals("Pedido #102 - Combo Master", iterador.next());
+
+        assertTrue(iterador.hasNext());
+        assertEquals("Pedido #103 - Batata Frita", iterador.next());
+
+        // No final da fila, hasNext deve ser falso
+        assertFalse(iterador.hasNext());
+        assertNull(iterador.next());
+    }
 }

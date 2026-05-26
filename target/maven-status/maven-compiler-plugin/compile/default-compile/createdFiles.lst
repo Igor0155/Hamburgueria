@@ -6,6 +6,7 @@ hamburgueria\comportamentais\PedidoFluxo.class
 hamburgueria\comportamentais\UsuarioChat.class
 hamburgueria\HamburguerDecorator.class
 hamburgueria\criacionais\HamburguerPersonalizado.class
+hamburgueria\comportamentais\PedidoIterator.class
 hamburgueria\comportamentais\EntregadorChat.class
 hamburgueria\criacionais\EmbalagemFactory.class
 hamburgueria\comportamentais\EstadoNovo.class
@@ -19,8 +20,10 @@ hamburgueria\criacionais\PedidoBuilder.class
 hamburgueria\criacionais\CopoVidroSalao.class
 hamburgueria\criacionais\Pagamento.class
 hamburgueria\comportamentais\VisitorNutricional.class
+hamburgueria\comportamentais\FilaPedidosCozinha$FilaIterator.class
 hamburgueria\comportamentais\ProcessamentoCaixa.class
 hamburgueria\estruturais\IngredienteFactory.class
+hamburgueria\comportamentais\FilaPedidosCozinha.class
 hamburgueria\estruturais\TransporteBicicleta.class
 hamburgueria\comportamentais\MonitorObserver.class
 hamburgueria\criacionais\BandejaSalao.class
