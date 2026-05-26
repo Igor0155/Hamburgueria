@@ -5,6 +5,7 @@ hamburgueria\comportamentais\CalculadoraCalorias.class
 hamburgueria\comportamentais\PedidoFluxo.class
 hamburgueria\comportamentais\UsuarioChat.class
 hamburgueria\HamburguerDecorator.class
+hamburgueria\criacionais\HamburguerPersonalizado.class
 hamburgueria\comportamentais\EntregadorChat.class
 hamburgueria\criacionais\EmbalagemFactory.class
 hamburgueria\comportamentais\EstadoNovo.class
@@ -19,6 +20,7 @@ hamburgueria\criacionais\CopoVidroSalao.class
 hamburgueria\criacionais\Pagamento.class
 hamburgueria\comportamentais\VisitorNutricional.class
 hamburgueria\comportamentais\ProcessamentoCaixa.class
+hamburgueria\estruturais\IngredienteFactory.class
 hamburgueria\estruturais\TransporteBicicleta.class
 hamburgueria\comportamentais\MonitorObserver.class
 hamburgueria\criacionais\BandejaSalao.class
@@ -28,6 +30,7 @@ hamburgueria\comportamentais\CaixaFisico.class
 hamburgueria\comportamentais\CaixaTotem.class
 hamburgueria\comportamentais\Carne.class
 hamburgueria\criacionais\FabricaSalao.class
+hamburgueria\estruturais\TipoIngrediente.class
 hamburgueria\comportamentais\Gerente.class
 hamburgueria\comportamentais\TratadorReclamacao.class
 hamburgueria\estruturais\PedidoApp.class
@@ -48,6 +51,7 @@ hamburgueria\Categoria.class
 hamburgueria\comportamentais\CarrinhoEstado.class
 hamburgueria\criacionais\CaixaLanche.class
 hamburgueria\comportamentais\ClienteChat.class
+hamburgueria\estruturais\ItemLanche.class
 hamburgueria\Produto.class
 hamburgueria\comportamentais\FreteFixo.class
 hamburgueria\criacionais\CopoSeladoDelivery.class

@@ -58,4 +58,18 @@ class FinalPatternsTest {
         int total = p1.aceitar(calculadora) + c1.aceitar(calculadora);
         assertEquals(500, total);
     }
+
+    @Test
+    void deveReaproveitarInstanciasFlyweight() {
+        // Solicitamos o Cheddar duas vezes e o Bacon uma vez
+        TipoIngrediente tipo1 = IngredienteFactory.getTipo("Cheddar", "Laticínios S/A", "Calorias: 100");
+        TipoIngrediente tipo2 = IngredienteFactory.getTipo("Cheddar", "Laticínios S/A", "Calorias: 100");
+        TipoIngrediente tipo3 = IngredienteFactory.getTipo("Bacon", "Frigorífico B", "Calorias: 250");
+
+        assertSame(tipo1, tipo2);
+
+        assertNotSame(tipo1, tipo3);
+
+        assertEquals(2, IngredienteFactory.getTotalTiposCriados());
+    }
 }
