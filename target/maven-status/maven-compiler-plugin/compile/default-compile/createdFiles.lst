@@ -4,6 +4,7 @@ hamburgueria\comportamentais\Cozinha.class
 hamburgueria\comportamentais\Atendente.class
 hamburgueria\comportamentais\CalculadoraCalorias.class
 hamburgueria\comportamentais\ComandoPrepararLanche.class
+hamburgueria\comportamentais\ExpressaoPromocao.class
 hamburgueria\comportamentais\PedidoFluxo.class
 hamburgueria\comportamentais\UsuarioChat.class
 hamburgueria\HamburguerDecorator.class
@@ -21,6 +22,7 @@ hamburgueria\criacionais\PagamentoFactory.class
 hamburgueria\comportamentais\Pao.class
 hamburgueria\criacionais\PedidoBuilder.class
 hamburgueria\criacionais\CopoVidroSalao.class
+hamburgueria\comportamentais\ExpressaoVip.class
 hamburgueria\criacionais\Pagamento.class
 hamburgueria\comportamentais\VisitorNutricional.class
 hamburgueria\comportamentais\Comando.class
@@ -33,10 +35,12 @@ hamburgueria\estruturais\RelatorioFinanceiroProxy.class
 hamburgueria\estruturais\TransporteBicicleta.class
 hamburgueria\comportamentais\MonitorObserver.class
 hamburgueria\criacionais\BandejaSalao.class
+hamburgueria\comportamentais\ExpressaoDiaSemana.class
 hamburgueria\comportamentais\FreteGratis.class
 hamburgueria\criacionais\Pedido.class
 hamburgueria\comportamentais\CaixaFisico.class
 hamburgueria\comportamentais\CaixaTotem.class
+hamburgueria\comportamentais\ExpressaoEstudante.class
 hamburgueria\comportamentais\Carne.class
 hamburgueria\criacionais\FabricaSalao.class
 hamburgueria\estruturais\TipoIngrediente.class
@@ -44,6 +48,7 @@ hamburgueria\comportamentais\Gerente.class
 hamburgueria\comportamentais\TratadorReclamacao.class
 hamburgueria\estruturais\PedidoApp.class
 hamburgueria\AdicionalCheddar.class
+hamburgueria\comportamentais\ExpressaoOr.class
 hamburgueria\estruturais\Relatorio.class
 hamburgueria\comportamentais\EstadoPreparando.class
 hamburgueria\HamburguerBase.class
@@ -72,8 +77,10 @@ hamburgueria\AdicionalBacon.class
 hamburgueria\criacionais\FabricaDelivery.class
 hamburgueria\comportamentais\CarrinhoCompras.class
 hamburgueria\comportamentais\PainelCliente.class
+hamburgueria\comportamentais\ContextoPromocao.class
 hamburgueria\criacionais\CopoBebida.class
 hamburgueria\estruturais\Transporte.class
 hamburgueria\comportamentais\EstrategiaFrete.class
 hamburgueria\estruturais\RelatorioFinanceiroReal.class
 hamburgueria\comportamentais\EstadoEntregue.class
+hamburgueria\comportamentais\ExpressaoAnd.class
