@@ -88,4 +88,40 @@ class ComportamentaisTest {
 
         assertEquals("Tablet: Nenhum comando para cancelar.", resultado);
     }
+
+    @Test
+    void deveAprovarDescontoParaEstudanteNaTercaFeira() {
+        // Regra do Cupom: ESTUDANTE E TERÇA-FEIRA
+        ExpressaoPromocao regraEstudante = new ExpressaoEstudante();
+        ExpressaoPromocao regraTerca = new ExpressaoDiaSemana("Terça-feira");
+        ExpressaoPromocao regraFinal = new ExpressaoAnd(regraEstudante, regraTerca);
+
+        // Cliente 1: Estudante numa Terça (Aprova)
+        ContextoPromocao contexto1 = new ContextoPromocao("Terça-feira", true, false);
+        assertTrue(regraFinal.interpretar(contexto1));
+
+        // Cliente 2: Estudante numa Quarta (Nega)
+        ContextoPromocao contexto2 = new ContextoPromocao("Quarta-feira", true, false);
+        assertFalse(regraFinal.interpretar(contexto2));
+    }
+
+    @Test
+    void deveAprovarDescontoVipOuTercaFeira() {
+        // Regra do Cupom: VIP OU TERÇA-FEIRA
+        ExpressaoPromocao regraVip = new ExpressaoVip();
+        ExpressaoPromocao regraTerca = new ExpressaoDiaSemana("Terça-feira");
+        ExpressaoPromocao regraFinal = new ExpressaoOr(regraVip, regraTerca);
+
+        // Cliente 1: Não é VIP, mas é Terça (Aprova)
+        ContextoPromocao contexto1 = new ContextoPromocao("Terça-feira", false, false);
+        assertTrue(regraFinal.interpretar(contexto1));
+
+        // Cliente 2: É VIP numa Sexta (Aprova)
+        ContextoPromocao contexto2 = new ContextoPromocao("Sexta-feira", false, true);
+        assertTrue(regraFinal.interpretar(contexto2));
+
+        // Cliente 3: Não é VIP e é Sexta (Nega)
+        ContextoPromocao contexto3 = new ContextoPromocao("Sexta-feira", false, false);
+        assertFalse(regraFinal.interpretar(contexto3));
+    }
 }
