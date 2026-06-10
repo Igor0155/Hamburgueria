@@ -1,19 +1,13 @@
 package hamburgueria.criacionais;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 import hamburgueria.Produto;
-import hamburgueria.criacionais.CaixaLanche;
-import hamburgueria.criacionais.ConfiguracaoRestaurante;
-import hamburgueria.criacionais.CopoBebida;
-import hamburgueria.criacionais.EmbalagemFactory;
-import hamburgueria.criacionais.FabricaDelivery;
-import hamburgueria.criacionais.HamburguerPersonalizado;
-import hamburgueria.criacionais.Pagamento;
-import hamburgueria.criacionais.PagamentoFactory;
-import hamburgueria.criacionais.Pedido;
-import hamburgueria.criacionais.PedidoBuilder;
 
 class CriacionaisTest {
 

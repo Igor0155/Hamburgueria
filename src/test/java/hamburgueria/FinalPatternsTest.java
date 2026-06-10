@@ -1,9 +1,34 @@
 package hamburgueria;
 
-import hamburgueria.estruturais.*;
-import hamburgueria.comportamentais.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import hamburgueria.comportamentais.CaixaTotem;
+import hamburgueria.comportamentais.CalculadoraCalorias;
+import hamburgueria.comportamentais.Carne;
+import hamburgueria.comportamentais.CarrinhoCompras;
+import hamburgueria.comportamentais.CarrinhoEstado;
+import hamburgueria.comportamentais.CentralChat;
+import hamburgueria.comportamentais.ClienteChat;
+import hamburgueria.comportamentais.EntregadorChat;
+import hamburgueria.comportamentais.FilaPedidosCozinha;
+import hamburgueria.comportamentais.Ingrediente;
+import hamburgueria.comportamentais.Pao;
+import hamburgueria.comportamentais.PedidoIterator;
+import hamburgueria.comportamentais.ProcessamentoCaixa;
+import hamburgueria.estruturais.IngredienteFactory;
+import hamburgueria.estruturais.LogisticaTerceirizadaAPI;
+import hamburgueria.estruturais.PedidoApp;
+import hamburgueria.estruturais.PedidoDelivery;
+import hamburgueria.estruturais.TipoIngrediente;
+import hamburgueria.estruturais.Transporte;
+import hamburgueria.estruturais.TransporteMoto;
+import hamburgueria.estruturais.TransporteTerceirizadoAdapter;
 
 class FinalPatternsTest {
 
@@ -96,5 +121,22 @@ class FinalPatternsTest {
         // No final da fila, hasNext deve ser falso
         assertFalse(iterador.hasNext());
         assertNull(iterador.next());
+    }
+
+    @Test
+    void deveAdaptarLogisticaTerceirizadaParaInterfaceDoSistema() {
+        // Instancia a API externa incompatível
+        LogisticaTerceirizadaAPI apiExterna = new LogisticaTerceirizadaAPI();
+
+        // Passa a API externa para dentro do nosso adaptador
+        Transporte transporteAdapter = new TransporteTerceirizadoAdapter(apiExterna);
+
+        // O nosso sistema aciona o método que ele já conhece: realizarEntrega()
+        String resultado = transporteAdapter.realizarEntrega("Avenida Central, 100");
+
+        // Valida se o adaptador traduziu a chamada com sucesso
+        assertTrue(resultado.contains("Logística Externa enviou o pacote"));
+        assertTrue(resultado.contains("para o destino: Avenida Central, 100"));
+        assertTrue(resultado.contains("[TRK-")); // Verifica se o código de rastreio foi gerado
     }
 }
