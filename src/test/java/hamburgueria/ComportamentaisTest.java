@@ -51,4 +51,41 @@ class ComportamentaisTest {
         assertTrue(pedido.finalizar());
         assertEquals("PAINEL: Pedido de Carlos agora está: Pronto", painel.getUltimaMensagem());
     }
+
+    @Test
+    void deveExecutarComandoDePreparo() {
+        Cozinha cozinha = new Cozinha();
+        TabletAtendente tablet = new TabletAtendente();
+        Comando prepararSmash = new ComandoPrepararLanche(cozinha, "Smash Burger");
+
+        String resultado = tablet.emitirComando(prepararSmash);
+
+        assertEquals("Cozinha: Separando ingredientes e iniciando o preparo do Smash Burger", resultado);
+    }
+
+    @Test
+    void deveDesfazerUltimoComando() {
+        Cozinha cozinha = new Cozinha();
+        TabletAtendente tablet = new TabletAtendente();
+        Comando prepararBacon = new ComandoPrepararLanche(cozinha, "Bacon Supremo");
+
+        // O garçom envia o comando
+        tablet.emitirComando(prepararBacon);
+
+        // O cliente desiste, o garçom cancela
+        String resultadoCancelamento = tablet.cancelarUltimoComando();
+
+        assertEquals("Cozinha: Abortando o preparo do Bacon Supremo e descartando itens na chapa",
+                resultadoCancelamento);
+    }
+
+    @Test
+    void deveAvisarQuandoNaoHouverComandosParaCancelar() {
+        TabletAtendente tablet = new TabletAtendente();
+
+        // Tenta cancelar sem ter feito nenhum pedido
+        String resultado = tablet.cancelarUltimoComando();
+
+        assertEquals("Tablet: Nenhum comando para cancelar.", resultado);
+    }
 }
