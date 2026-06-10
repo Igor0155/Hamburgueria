@@ -42,10 +42,12 @@ hamburgueria\comportamentais\EstadoPreparando.class
 hamburgueria\HamburguerBase.class
 hamburgueria\ComponenteCardapio.class
 hamburgueria\comportamentais\CentralChat.class
+hamburgueria\estruturais\TransporteTerceirizadoAdapter.class
 hamburgueria\estruturais\PedidoDelivery.class
 hamburgueria\comportamentais\ChatMediator.class
 hamburgueria\criacionais\ConfiguracaoRestaurante.class
 hamburgueria\ComboFacade.class
+hamburgueria\estruturais\LogisticaTerceirizadaAPI.class
 hamburgueria\estruturais\TransporteMoto.class
 hamburgueria\comportamentais\Dono.class
 hamburgueria\comportamentais\EstadoPronto.class
