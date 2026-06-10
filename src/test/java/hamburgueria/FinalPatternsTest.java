@@ -21,10 +21,13 @@ import hamburgueria.comportamentais.Ingrediente;
 import hamburgueria.comportamentais.Pao;
 import hamburgueria.comportamentais.PedidoIterator;
 import hamburgueria.comportamentais.ProcessamentoCaixa;
+import hamburgueria.estruturais.FuncionarioAcesso;
 import hamburgueria.estruturais.IngredienteFactory;
 import hamburgueria.estruturais.LogisticaTerceirizadaAPI;
 import hamburgueria.estruturais.PedidoApp;
 import hamburgueria.estruturais.PedidoDelivery;
+import hamburgueria.estruturais.Relatorio;
+import hamburgueria.estruturais.RelatorioFinanceiroProxy;
 import hamburgueria.estruturais.TipoIngrediente;
 import hamburgueria.estruturais.Transporte;
 import hamburgueria.estruturais.TransporteMoto;
@@ -138,5 +141,35 @@ class FinalPatternsTest {
         assertTrue(resultado.contains("Logística Externa enviou o pacote"));
         assertTrue(resultado.contains("para o destino: Avenida Central, 100"));
         assertTrue(resultado.contains("[TRK-")); // Verifica se o código de rastreio foi gerado
+    }
+
+    @Test
+    void devePermitirAcessoParaGerente() {
+        FuncionarioAcesso gerente = new FuncionarioAcesso("Carlos", "Gerente");
+        Relatorio proxy = new RelatorioFinanceiroProxy(gerente);
+
+        String resultado = proxy.gerar();
+
+        assertTrue(resultado.contains("Relatório Confidencial: Faturamento do mês"));
+    }
+
+    @Test
+    void devePermitirAcessoParaDono() {
+        FuncionarioAcesso dono = new FuncionarioAcesso("Ana", "Dono");
+        Relatorio proxy = new RelatorioFinanceiroProxy(dono);
+
+        String resultado = proxy.gerar();
+
+        assertTrue(resultado.contains("Relatório Confidencial: Faturamento do mês"));
+    }
+
+    @Test
+    void deveNegarAcessoParaAtendente() {
+        FuncionarioAcesso atendente = new FuncionarioAcesso("Marcos", "Atendente");
+        Relatorio proxy = new RelatorioFinanceiroProxy(atendente);
+
+        String resultado = proxy.gerar();
+
+        assertEquals("Acesso Negado: O cargo 'Atendente' não tem permissão para visualizar o financeiro.", resultado);
     }
 }

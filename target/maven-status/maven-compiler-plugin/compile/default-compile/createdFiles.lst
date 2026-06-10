@@ -27,7 +27,9 @@ hamburgueria\comportamentais\Comando.class
 hamburgueria\comportamentais\FilaPedidosCozinha$FilaIterator.class
 hamburgueria\comportamentais\ProcessamentoCaixa.class
 hamburgueria\estruturais\IngredienteFactory.class
+hamburgueria\estruturais\FuncionarioAcesso.class
 hamburgueria\comportamentais\FilaPedidosCozinha.class
+hamburgueria\estruturais\RelatorioFinanceiroProxy.class
 hamburgueria\estruturais\TransporteBicicleta.class
 hamburgueria\comportamentais\MonitorObserver.class
 hamburgueria\criacionais\BandejaSalao.class
@@ -42,6 +44,7 @@ hamburgueria\comportamentais\Gerente.class
 hamburgueria\comportamentais\TratadorReclamacao.class
 hamburgueria\estruturais\PedidoApp.class
 hamburgueria\AdicionalCheddar.class
+hamburgueria\estruturais\Relatorio.class
 hamburgueria\comportamentais\EstadoPreparando.class
 hamburgueria\HamburguerBase.class
 hamburgueria\ComponenteCardapio.class
@@ -72,4 +75,5 @@ hamburgueria\comportamentais\PainelCliente.class
 hamburgueria\criacionais\CopoBebida.class
 hamburgueria\estruturais\Transporte.class
 hamburgueria\comportamentais\EstrategiaFrete.class
+hamburgueria\estruturais\RelatorioFinanceiroReal.class
 hamburgueria\comportamentais\EstadoEntregue.class
