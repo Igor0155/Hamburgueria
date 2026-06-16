@@ -138,3 +138,10 @@ No terminal, na raiz do projeto (onde se encontra o arquivo `pom.xml`), execute:
 ```bash
 mvn test
 ```
+
+---
+
+## 📈 Diagrama
+
+<img width="7745" height="8588" alt="mermaid-diagram-2026-06-16-195510" src="https://github.com/user-attachments/assets/b6bd61bd-d1f5-4497-8f34-4f9beba41fbc" />
+
