@@ -3,8 +3,8 @@ package hamburgueria.criacionais;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 import hamburgueria.Produto;
@@ -30,6 +30,14 @@ class CriacionaisTest {
     }
 
     @Test
+    void deveFalharAoCriarPagamentoInvalido() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            PagamentoFactory.criarPagamento("BOLETO");
+        });
+        assertEquals("Tipo de pagamento não suportado.", exception.getMessage());
+    }
+
+    @Test
     void deveCriarFamiliaEmbalagensAbstractFactory() {
         EmbalagemFactory fabrica = new FabricaDelivery();
         CaixaLanche caixa = fabrica.criarCaixa();
@@ -41,12 +49,11 @@ class CriacionaisTest {
 
     @Test
     void deveConstruirPedidoComBuilder() {
-
         Pedido pedido = new PedidoBuilder()
                 .comCliente("Igor Gabriel")
                 .comPagamento("CARTAO")
                 .paraConsumo("SALAO")
-                .adicionarItem(new Produto("Batata", 15.0f)) // Item do Composite
+                .adicionarItem(new Produto("Batata", 15.0f))
                 .build();
 
         assertEquals("Igor Gabriel", pedido.getNomeCliente());
@@ -56,33 +63,25 @@ class CriacionaisTest {
 
     @Test
     void deveFalharBuilderSemCliente() {
-        try {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             new PedidoBuilder().adicionarItem(new Produto("Batata", 15.0f)).build();
-            fail();
-        } catch (IllegalArgumentException e) {
-            assertEquals("O pedido precisa de um cliente.", e.getMessage());
-        }
+        });
+        assertEquals("O pedido precisa de um cliente.", exception.getMessage());
     }
 
     @Test
     void deveClonarHamburguerEPermitirAlteracao() {
-        HamburguerPersonalizado lancheOriginal = new HamburguerPersonalizado(
-                "Brioche", "Picanha", "Prato", "Maionese Verde");
-
+        HamburguerPersonalizado lancheOriginal = new HamburguerPersonalizado("Brioche", "Picanha", "Prato",
+                "Maionese Verde");
         HamburguerPersonalizado lancheClone = lancheOriginal.clone();
 
-        // 1. Verifica se os valores foram copiados perfeitamente
         assertEquals("Brioche", lancheClone.getPao());
         assertEquals("Picanha", lancheClone.getCarne());
 
-        // 2. Altera um ingrediente apenas no clone
         lancheClone.setPao("Integral");
 
-        // 3. Verifica se a alteração ocorreu no clone e o original continuou intacto
         assertEquals("Integral", lancheClone.getPao());
         assertEquals("Brioche", lancheOriginal.getPao());
-
-        // 4. Garante que são duas instâncias diferentes na memória
         assertNotSame(lancheOriginal, lancheClone);
     }
 }
