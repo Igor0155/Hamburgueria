@@ -15,6 +15,7 @@ public class Categoria implements ComponenteCardapio {
         this.itens.add(item);
     }
 
+    @Override
     public String getDescricao() {
         StringBuilder descricao = new StringBuilder(this.nome + " contendo: [");
         for (int i = 0; i < itens.size(); i++) {
@@ -27,6 +28,7 @@ public class Categoria implements ComponenteCardapio {
         return descricao.toString();
     }
 
+    @Override
     public float getPreco() {
         float total = 0;
         for (ComponenteCardapio item : itens) {
