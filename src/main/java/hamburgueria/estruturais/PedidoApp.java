@@ -5,6 +5,7 @@ public class PedidoApp extends PedidoDelivery {
         super(transporte);
     }
 
+    @Override
     public String processar(String endereco) {
         return "Pedido via iFood/App. " + transporte.realizarEntrega(endereco);
     }

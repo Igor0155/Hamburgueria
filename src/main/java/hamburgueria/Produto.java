@@ -9,10 +9,12 @@ public class Produto implements ComponenteCardapio {
         this.preco = preco;
     }
 
+    @Override
     public String getDescricao() {
         return this.nome;
     }
 
+    @Override
     public float getPreco() {
         return this.preco;
     }

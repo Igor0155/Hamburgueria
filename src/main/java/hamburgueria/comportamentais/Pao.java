@@ -11,6 +11,7 @@ public class Pao implements Ingrediente {
         return integral;
     }
 
+    @Override
     public int aceitar(VisitorNutricional visitor) {
         return visitor.calcularCaloriasPao(this);
     }

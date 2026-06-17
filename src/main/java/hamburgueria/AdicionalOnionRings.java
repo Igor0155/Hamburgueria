@@ -5,10 +5,12 @@ class AdicionalOnionRings extends HamburguerDecorator {
         super(lanche);
     }
 
+    @Override
     public String getAdicionalDescricao() {
         return "Onion Rings";
     }
 
+    @Override
     public float getAdicionalPreco() {
         return 6.0f;
     }

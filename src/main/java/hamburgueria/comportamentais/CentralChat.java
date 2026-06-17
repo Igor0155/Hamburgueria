@@ -12,6 +12,7 @@ public class CentralChat implements ChatMediator {
         this.entregador = entregador;
     }
 
+    @Override
     public void enviarMensagem(String mensagem, UsuarioChat remetente) {
         if (remetente == cliente && entregador != null) {
             entregador.receberMensagem(mensagem);

@@ -11,6 +11,7 @@ public class Carne implements Ingrediente {
         return gramas;
     }
 
+    @Override
     public int aceitar(VisitorNutricional visitor) {
         return visitor.calcularCaloriasCarne(this);
     }
