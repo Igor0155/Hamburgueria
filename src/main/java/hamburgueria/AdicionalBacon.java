@@ -5,10 +5,12 @@ class AdicionalBacon extends HamburguerDecorator {
         super(lanche);
     }
 
+    @Override
     public String getAdicionalDescricao() {
         return "Bacon Crocante";
     }
 
+    @Override
     public float getAdicionalPreco() {
         return 7.0f;
     }

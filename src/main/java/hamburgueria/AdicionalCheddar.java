@@ -5,10 +5,12 @@ public class AdicionalCheddar extends HamburguerDecorator {
         super(lanche);
     }
 
+    @Override
     public String getAdicionalDescricao() {
         return "Cheddar Cremoso";
     }
 
+    @Override
     public float getAdicionalPreco() {
         return 5.0f;
     }

@@ -11,10 +11,12 @@ public abstract class HamburguerDecorator implements ComponenteCardapio {
 
     public abstract float getAdicionalPreco();
 
+    @Override
     public String getDescricao() {
         return lanche.getDescricao() + " + " + getAdicionalDescricao();
     }
 
+    @Override
     public float getPreco() {
         return lanche.getPreco() + getAdicionalPreco();
     }
