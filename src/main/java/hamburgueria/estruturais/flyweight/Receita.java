@@ -1,6 +1,9 @@
 package hamburgueria.estruturais.flyweight;
 
-public class Receita {
+import hamburgueria.comportamentais.visitor.IElementoAuditoria;
+import hamburgueria.comportamentais.visitor.VisitorAuditoria;
+
+public class Receita implements IElementoAuditoria {
 
     private String nomeLanche;
     private String modoDePreparo;
@@ -22,5 +25,10 @@ public class Receita {
 
     public int getTempoEstimadoMinutos() {
         return tempoEstimadoMinutos;
+    }
+
+    @Override
+    public String aceitar(VisitorAuditoria visitor) {
+        return visitor.exibirReceita(this);
     }
 }

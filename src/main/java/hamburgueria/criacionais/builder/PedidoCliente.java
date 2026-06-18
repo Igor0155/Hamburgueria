@@ -1,5 +1,7 @@
 package hamburgueria.criacionais.builder;
 
+import hamburgueria.comportamentais.visitor.IElementoAuditoria;
+import hamburgueria.comportamentais.visitor.VisitorAuditoria;
 import hamburgueria.criacionais.abstractfactory.RecipienteBebida;
 import hamburgueria.criacionais.abstractfactory.RecipienteLanche;
 import hamburgueria.criacionais.abstractfactory.TransportePedido;
@@ -8,7 +10,7 @@ import hamburgueria.estruturais.composite.ItemCardapio;
 import hamburgueria.estruturais.decorator.Lanche;
 import hamburgueria.estruturais.facade.PedidoFacade;
 
-public class PedidoCliente {
+public class PedidoCliente implements IElementoAuditoria {
 
     private int numeroPedido;
     private String nomeCliente;
@@ -106,5 +108,10 @@ public class PedidoCliente {
     // INTEGRAÇÃO COM A FACADE
     public boolean despacharPedido() {
         return PedidoFacade.verificarPendenciasLiberacao(this);
+    }
+
+    @Override
+    public String aceitar(VisitorAuditoria visitor) {
+        return visitor.exibirPedido(this);
     }
 }

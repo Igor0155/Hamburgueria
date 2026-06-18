@@ -1,6 +1,9 @@
 package hamburgueria.estruturais.proxy;
 
-public class Funcionario {
+import hamburgueria.comportamentais.visitor.IElementoAuditoria;
+import hamburgueria.comportamentais.visitor.VisitorAuditoria;
+
+public class Funcionario implements IElementoAuditoria {
     private String nome;
     private boolean gerente;
 
@@ -23,5 +26,10 @@ public class Funcionario {
 
     public void setGerente(boolean gerente) {
         this.gerente = gerente;
+    }
+
+    @Override
+    public String aceitar(VisitorAuditoria visitor) {
+        return visitor.exibirFuncionario(this);
     }
 }
