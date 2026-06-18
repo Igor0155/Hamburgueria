@@ -14,17 +14,43 @@ import hamburgueria.estruturais.decorator.HamburguerBase;
 
 class FechamentoCaixaTest {
 
-    private PedidoCliente pedidoReal;
+    private PedidoCliente pedidoSemCupom;
+    private PedidoCliente pedidoComCupom;
 
     @BeforeEach
     void setUp() {
         ConfiguracaoRestaurante.getInstance().setAceitandoPedidos(true);
-        pedidoReal = new PedidoClienteBuilder()
-                .setNumeroPedido(1001)
+
+        // Pedido 1: Cliente normal (Lanche de R$ 40,00)
+        pedidoSemCupom = new PedidoClienteBuilder()
+                .setNumeroPedido(1)
                 .setNomeCliente("Igor Gabriel")
                 .setMetodoPagamento(new PagamentoPix())
-                .setLanchePrincipal(new HamburguerBase(40.0f)) // O lanche custa R$ 40,00
+                .setLanchePrincipal(new HamburguerBase(40.0f))
                 .build();
+
+        // Pedido 2: Cliente com Cupom da Madrugada (Lanche de R$ 40,00)
+        CupomDesconto cupomMadrugada = new CupomDesconto("MADRUGA20", "lanchePreco + taxaFrete * 2");
+
+        pedidoComCupom = new PedidoClienteBuilder()
+                .setNumeroPedido(2)
+                .setNomeCliente("Jeanne")
+                .setMetodoPagamento(new PagamentoPix())
+                .setLanchePrincipal(new HamburguerBase(40.0f))
+                .setCupomDesconto(cupomMadrugada) // A MÁGICA DA INTEGRAÇÃO AQUI
+                .build();
+    }
+
+    @Test
+    void deveRetornarCodigoDoCupomDesconto() {
+        CupomDesconto cupom = new CupomDesconto("BLACK50", "lanchePreco / 2");
+        assertEquals("BLACK50", cupom.getCodigo());
+    }
+
+    @Test
+    void deveRetornarRegraMatematicaDoCupomDesconto() {
+        CupomDesconto cupom = new CupomDesconto("BLACK50", "lanchePreco / 2");
+        assertEquals("lanchePreco / 2", cupom.getRegraMatematica());
     }
 
     @Test
@@ -39,43 +65,28 @@ class FechamentoCaixaTest {
 
     @Test
     void deveRetornarOPedidoAssociadoAoCaixa() {
-        FechamentoCaixa caixa = new FechamentoCaixa(pedidoReal);
-        assertSame(pedidoReal, caixa.getPedido());
+        FechamentoCaixa caixa = new FechamentoCaixa(pedidoSemCupom);
+        assertSame(pedidoSemCupom, caixa.getPedido());
     }
 
     @Test
-    void deveCobrarPedidoComCupomDeDescontoPelaMetade() {
-        FechamentoCaixa caixa = new FechamentoCaixa(pedidoReal);
-
-        // Regra Dinâmica: Lanche pela metade do preço + 10 reais de frete
-        // Matemática: (40.0 / 2) + 10.0 = 30.0
-        String regraCupom = "lanchePreco / 2 + taxaFrete";
-        double frete = 10.0;
-
-        assertEquals(30.0, caixa.cobrarComCupomDinamico(regraCupom, frete));
-    }
-
-    @Test
-    void deveCobrarPedidoComRegraDeTaxaNoturnaDobrada() {
-        FechamentoCaixa caixa = new FechamentoCaixa(pedidoReal);
-
-        // Regra Dinâmica: Lanche normal + Frete cobrado em dobro na madrugada
-        // Matemática: 40.0 + (15.0 * 2) = 70.0
-        String regraTaxaNoturna = "lanchePreco + taxaFrete * 2";
+    void deveCobrarPedidoSemCupomUsandoRegraPadrao() {
+        FechamentoCaixa caixa = new FechamentoCaixa(pedidoSemCupom);
         double frete = 15.0;
 
-        assertEquals(70.0, caixa.cobrarComCupomDinamico(regraTaxaNoturna, frete));
+        // Regra padrão escondida no caixa: lanchePreco + taxaFrete -> 40.0 + 15.0 =
+        // 55.0
+        assertEquals(55.0, caixa.processarPagamentoFinal(frete));
     }
 
     @Test
-    void deveCobrarPedidoComRegraDeIsencaoDeFrete() {
-        FechamentoCaixa caixa = new FechamentoCaixa(pedidoReal);
-
-        // Regra Dinâmica: Paga só o lanche, isenta o frete (multiplica frete por 0)
-        // Matemática: 40.0 + (15.0 * 0) = 40.0
-        String regraFreteGratis = "lanchePreco + taxaFrete * 0";
+    void deveCobrarPedidoLendoARegraDoCupomAcopladoNoObjeto() {
+        FechamentoCaixa caixa = new FechamentoCaixa(pedidoComCupom);
         double frete = 15.0;
 
-        assertEquals(40.0, caixa.cobrarComCupomDinamico(regraFreteGratis, frete));
+        // O caixa deve ignorar a regra padrão e ler o cupom "MADRUGA20" que está no
+        // Builder
+        // Regra do cupom: lanchePreco + taxaFrete * 2 -> 40.0 + (15.0 * 2) = 70.0
+        assertEquals(70.0, caixa.processarPagamentoFinal(frete));
     }
 }

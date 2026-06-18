@@ -17,9 +17,15 @@ public class FechamentoCaixa {
         return this.pedido;
     }
 
-    // Método funcional: Aplica uma regra em texto (que poderia vir do Banco de
-    // Dados)
-    public double cobrarComCupomDinamico(String regraCupom, double taxaFrete) {
-        return MotorCalculoDinamico.calcularValorComRegraDinamica(this.pedido, regraCupom, taxaFrete);
+    public double processarPagamentoFinal(double taxaFrete) {
+        // Regra padrão se o cliente não tiver cupom
+        String regraAplicada = "lanchePreco + taxaFrete";
+
+        // Se o Builder injetou um cupom real, nós extraímos a fórmula dele
+        if (this.pedido.getCupomDesconto() != null) {
+            regraAplicada = this.pedido.getCupomDesconto().getRegraMatematica();
+        }
+
+        return MotorCalculoDinamico.calcularValorComRegraDinamica(this.pedido, regraAplicada, taxaFrete);
     }
 }

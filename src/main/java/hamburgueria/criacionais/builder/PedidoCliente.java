@@ -1,5 +1,9 @@
 package hamburgueria.criacionais.builder;
 
+import hamburgueria.comportamentais.interpreter.CupomDesconto;
+import hamburgueria.comportamentais.memento.PedidoMemento;
+import hamburgueria.comportamentais.state.PedidoEstado;
+import hamburgueria.comportamentais.state.PedidoEstadoCriado;
 import hamburgueria.comportamentais.visitor.IElementoAuditoria;
 import hamburgueria.comportamentais.visitor.VisitorAuditoria;
 import hamburgueria.criacionais.abstractfactory.RecipienteBebida;
@@ -20,15 +24,17 @@ public class PedidoCliente implements IElementoAuditoria {
     private IPagamento metodoPagamento; // Factory Method
     private Lanche lanchePrincipal; // Decorator + Prototype
     private ItemCardapio itensExtras; // Composite
-
+    private CupomDesconto cupomDesconto; // Cupom
     private RecipienteLanche recipienteLanche; // Abstract Factory
     private RecipienteBebida recipienteBebida; // Abstract Factory
     private TransportePedido transportePedido; // Abstract Factory
+    private PedidoEstado estado;
 
     public PedidoCliente() {
         this.numeroPedido = 0;
         this.nomeCliente = "";
         this.enderecoEntrega = "";
+        this.estado = PedidoEstadoCriado.getInstance();
     }
 
     // Getters e Setters básicos...
@@ -105,6 +111,14 @@ public class PedidoCliente implements IElementoAuditoria {
         this.transportePedido = transportePedido;
     }
 
+    public CupomDesconto getCupomDesconto() {
+        return cupomDesconto;
+    }
+
+    public void setCupomDesconto(CupomDesconto cupomDesconto) {
+        this.cupomDesconto = cupomDesconto;
+    }
+
     // INTEGRAÇÃO COM A FACADE
     public boolean despacharPedido() {
         return PedidoFacade.verificarPendenciasLiberacao(this);
@@ -113,5 +127,45 @@ public class PedidoCliente implements IElementoAuditoria {
     @Override
     public String aceitar(VisitorAuditoria visitor) {
         return visitor.exibirPedido(this);
+    }
+
+    public PedidoEstado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(PedidoEstado estado) {
+        this.estado = estado;
+    }
+
+    public String getNomeEstado() {
+        return estado.getNomeEstado();
+    }
+
+    public boolean iniciarPreparo() {
+        return estado.iniciarPreparo(this);
+    }
+
+    public boolean marcarPronto() {
+        return estado.marcarPronto(this);
+    }
+
+    public boolean enviarParaEntrega() {
+        return estado.enviarParaEntrega(this);
+    }
+
+    public boolean entregar() {
+        return estado.entregar(this);
+    }
+
+    public boolean cancelar() {
+        return estado.cancelar(this);
+    }
+
+    public PedidoMemento criarMemento() {
+        return new PedidoMemento(this.estado); // Tira a foto do estado atual
+    }
+
+    public void restaurarMemento(PedidoMemento memento) {
+        this.estado = memento.getEstadoSalvo(); // Restaura a foto antiga
     }
 }

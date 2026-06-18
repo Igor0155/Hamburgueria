@@ -1,5 +1,6 @@
 package hamburgueria.criacionais.builder;
 
+import hamburgueria.comportamentais.interpreter.CupomDesconto;
 import hamburgueria.criacionais.abstractfactory.FabricaAbstrata;
 import hamburgueria.criacionais.factorymethod.IPagamento;
 import hamburgueria.criacionais.singleton.ConfiguracaoRestaurante;
@@ -65,6 +66,11 @@ public class PedidoClienteBuilder {
         pedido.setRecipienteLanche(fabrica.createRecipienteLanche());
         pedido.setRecipienteBebida(fabrica.createRecipienteBebida());
         pedido.setTransportePedido(fabrica.createTransportePedido());
+        return this;
+    }
+
+    public PedidoClienteBuilder setCupomDesconto(CupomDesconto cupom) {
+        pedido.setCupomDesconto(cupom);
         return this;
     }
 }
