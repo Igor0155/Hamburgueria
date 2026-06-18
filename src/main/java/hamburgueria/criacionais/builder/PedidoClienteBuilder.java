@@ -37,6 +37,11 @@ public class PedidoClienteBuilder {
         return this;
     }
 
+    public PedidoClienteBuilder setEnderecoEntrega(String enderecoEntrega) {
+        pedido.setEnderecoEntrega(enderecoEntrega);
+        return this;
+    }
+
     public PedidoClienteBuilder setMetodoPagamento(IPagamento metodoPagamento) {
         pedido.setMetodoPagamento(metodoPagamento);
         return this;

@@ -12,6 +12,7 @@ public class PedidoCliente {
 
     private int numeroPedido;
     private String nomeCliente;
+    private String enderecoEntrega;
 
     // INTEGRAÇÕES ARQUITETURAIS:
     private IPagamento metodoPagamento; // Factory Method
@@ -25,6 +26,7 @@ public class PedidoCliente {
     public PedidoCliente() {
         this.numeroPedido = 0;
         this.nomeCliente = "";
+        this.enderecoEntrega = "";
     }
 
     // Getters e Setters básicos...
@@ -51,6 +53,14 @@ public class PedidoCliente {
 
     public void setMetodoPagamento(IPagamento metodoPagamento) {
         this.metodoPagamento = metodoPagamento;
+    }
+
+    public String getEnderecoEntrega() {
+        return enderecoEntrega;
+    }
+
+    public void setEnderecoEntrega(String enderecoEntrega) {
+        this.enderecoEntrega = enderecoEntrega;
     }
 
     public Lanche getLanchePrincipal() {
