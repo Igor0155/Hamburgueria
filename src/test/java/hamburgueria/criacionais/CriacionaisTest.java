@@ -7,6 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import hamburgueria.Produto;
+import hamburgueria.criacionais.abstractfactory.FabricaDelivery;
+import hamburgueria.criacionais.abstractfactory.Pedido;
+import hamburgueria.criacionais.factorymethod.Pagamento;
+import hamburgueria.criacionais.factorymethod.PagamentoCartaoCredito;
+import hamburgueria.criacionais.factorymethod.PagamentoFactory;
+import hamburgueria.criacionais.factorymethod.PagamentoPix;
 
 class CriacionaisTest {
 
@@ -46,7 +52,7 @@ class CriacionaisTest {
 
         assertEquals("Igor Gabriel", pedido.getNomeCliente());
         assertEquals(1, pedido.getQuantidadeItens());
-        assertTrue(pedido.getPagamento() instanceof PagamentoCartao);
+        assertTrue(pedido.getPagamento() instanceof PagamentoCartaoCredito);
     }
 
     @Test
