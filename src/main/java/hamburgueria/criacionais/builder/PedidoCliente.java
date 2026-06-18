@@ -1,30 +1,33 @@
 package hamburgueria.criacionais.builder;
 
+import hamburgueria.criacionais.abstractfactory.RecipienteBebida;
+import hamburgueria.criacionais.abstractfactory.RecipienteLanche;
+import hamburgueria.criacionais.abstractfactory.TransportePedido;
+import hamburgueria.criacionais.factorymethod.IPagamento;
+import hamburgueria.estruturais.composite.ItemCardapio;
+import hamburgueria.estruturais.decorator.Lanche;
+import hamburgueria.estruturais.facade.PedidoFacade;
+
 public class PedidoCliente {
 
     private int numeroPedido;
     private String nomeCliente;
-    private String cpfCliente;
-    private String telefone;
-    private String email;
-    private String enderecoLogradouro;
-    private int enderecoNumero;
-    private String enderecoComplemento;
-    private String enderecoBairro;
-    private String enderecoCidade;
-    private String cep;
-    private String lanchePrincipal;
-    private String adicionais;
-    private String bebida;
-    private String sobremesa;
-    private String metodoPagamento;
-    private String observacoes;
+
+    // INTEGRAÇÕES ARQUITETURAIS:
+    private IPagamento metodoPagamento; // Factory Method
+    private Lanche lanchePrincipal; // Decorator + Prototype
+    private ItemCardapio itensExtras; // Composite
+
+    private RecipienteLanche recipienteLanche; // Abstract Factory
+    private RecipienteBebida recipienteBebida; // Abstract Factory
+    private TransportePedido transportePedido; // Abstract Factory
 
     public PedidoCliente() {
         this.numeroPedido = 0;
         this.nomeCliente = "";
     }
 
+    // Getters e Setters básicos...
     public int getNumeroPedido() {
         return numeroPedido;
     }
@@ -41,123 +44,57 @@ public class PedidoCliente {
         this.nomeCliente = nomeCliente;
     }
 
-    public String getCpfCliente() {
-        return cpfCliente;
-    }
-
-    public void setCpfCliente(String cpfCliente) {
-        this.cpfCliente = cpfCliente;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEnderecoLogradouro() {
-        return enderecoLogradouro;
-    }
-
-    public void setEnderecoLogradouro(String enderecoLogradouro) {
-        this.enderecoLogradouro = enderecoLogradouro;
-    }
-
-    public int getEnderecoNumero() {
-        return enderecoNumero;
-    }
-
-    public void setEnderecoNumero(int enderecoNumero) {
-        this.enderecoNumero = enderecoNumero;
-    }
-
-    public String getEnderecoComplemento() {
-        return enderecoComplemento;
-    }
-
-    public void setEnderecoComplemento(String enderecoComplemento) {
-        this.enderecoComplemento = enderecoComplemento;
-    }
-
-    public String getEnderecoBairro() {
-        return enderecoBairro;
-    }
-
-    public void setEnderecoBairro(String enderecoBairro) {
-        this.enderecoBairro = enderecoBairro;
-    }
-
-    public String getEnderecoCidade() {
-        return enderecoCidade;
-    }
-
-    public void setEnderecoCidade(String enderecoCidade) {
-        this.enderecoCidade = enderecoCidade;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getLanchePrincipal() {
-        return lanchePrincipal;
-    }
-
-    public void setLanchePrincipal(String lanchePrincipal) {
-        this.lanchePrincipal = lanchePrincipal;
-    }
-
-    public String getAdicionais() {
-        return adicionais;
-    }
-
-    public void setAdicionais(String adicionais) {
-        this.adicionais = adicionais;
-    }
-
-    public String getBebida() {
-        return bebida;
-    }
-
-    public void setBebida(String bebida) {
-        this.bebida = bebida;
-    }
-
-    public String getSobremesa() {
-        return sobremesa;
-    }
-
-    public void setSobremesa(String sobremesa) {
-        this.sobremesa = sobremesa;
-    }
-
-    public String getMetodoPagamento() {
+    // Getters e Setters Integrados...
+    public IPagamento getMetodoPagamento() {
         return metodoPagamento;
     }
 
-    public void setMetodoPagamento(String metodoPagamento) {
+    public void setMetodoPagamento(IPagamento metodoPagamento) {
         this.metodoPagamento = metodoPagamento;
     }
 
-    public String getObservacoes() {
-        return observacoes;
+    public Lanche getLanchePrincipal() {
+        return lanchePrincipal;
     }
 
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
+    public void setLanchePrincipal(Lanche lanchePrincipal) {
+        this.lanchePrincipal = lanchePrincipal;
+    }
+
+    public ItemCardapio getItensExtras() {
+        return itensExtras;
+    }
+
+    public void setItensExtras(ItemCardapio itensExtras) {
+        this.itensExtras = itensExtras;
+    }
+
+    public RecipienteLanche getRecipienteLanche() {
+        return recipienteLanche;
+    }
+
+    public void setRecipienteLanche(RecipienteLanche recipienteLanche) {
+        this.recipienteLanche = recipienteLanche;
+    }
+
+    public RecipienteBebida getRecipienteBebida() {
+        return recipienteBebida;
+    }
+
+    public void setRecipienteBebida(RecipienteBebida recipienteBebida) {
+        this.recipienteBebida = recipienteBebida;
+    }
+
+    public TransportePedido getTransportePedido() {
+        return transportePedido;
+    }
+
+    public void setTransportePedido(TransportePedido transportePedido) {
+        this.transportePedido = transportePedido;
+    }
+
+    // INTEGRAÇÃO COM A FACADE
+    public boolean despacharPedido() {
+        return PedidoFacade.verificarPendenciasLiberacao(this);
     }
 }

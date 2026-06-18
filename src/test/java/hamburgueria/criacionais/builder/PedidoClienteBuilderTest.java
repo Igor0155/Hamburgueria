@@ -1,20 +1,48 @@
 package hamburgueria.criacionais.builder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import hamburgueria.criacionais.factorymethod.IPagamento;
+import hamburgueria.criacionais.factorymethod.PagamentoPix;
+import hamburgueria.criacionais.singleton.ConfiguracaoRestaurante;
+import hamburgueria.estruturais.composite.ItemIndividual;
+import hamburgueria.estruturais.decorator.AdicionalBacon;
+import hamburgueria.estruturais.decorator.AdicionalCheddar;
+import hamburgueria.estruturais.decorator.HamburguerBase;
+import hamburgueria.estruturais.decorator.Lanche;
+
 class PedidoClienteBuilderTest {
+
+    private IPagamento pagamentoMock; // Usamos a implementação real do Factory Method
+
+    @BeforeEach
+    void setUp() {
+        // Garante que o restaurante esteja aberto para a maioria dos testes
+        ConfiguracaoRestaurante.getInstance().setAceitandoPedidos(true);
+        pagamentoMock = new PagamentoPix();
+    }
+
+    @Test
+    void deveRetornarExcecaoSeRestauranteEstiverFechado() {
+        ConfiguracaoRestaurante.getInstance().setAceitandoPedidos(false);
+
+        try {
+            PedidoClienteBuilder builder = new PedidoClienteBuilder();
+            builder.setNumeroPedido(1).setNomeCliente("Igor").setMetodoPagamento(pagamentoMock).build();
+            fail();
+        } catch (IllegalStateException e) {
+            assertEquals("O restaurante está fechado. Não é possível criar pedidos.", e.getMessage());
+        }
+    }
 
     @Test
     void deveRetornarExcecaoParaPedidoSemNumero() {
         try {
             PedidoClienteBuilder builder = new PedidoClienteBuilder();
-            PedidoCliente pedido = builder
-                    .setNomeCliente("Igor Gabriel")
-                    .setLanchePrincipal("Smash Burger")
-                    .build();
+            builder.setNomeCliente("Igor Gabriel").setMetodoPagamento(pagamentoMock).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Número do pedido inválido", e.getMessage());
@@ -25,10 +53,7 @@ class PedidoClienteBuilderTest {
     void deveRetornarExcecaoParaPedidoSemNomeCliente() {
         try {
             PedidoClienteBuilder builder = new PedidoClienteBuilder();
-            PedidoCliente pedido = builder
-                    .setNumeroPedido(101)
-                    .setLanchePrincipal("Smash Burger")
-                    .build();
+            builder.setNumeroPedido(101).setMetodoPagamento(pagamentoMock).build();
             fail();
         } catch (IllegalArgumentException e) {
             assertEquals("Nome do cliente inválido", e.getMessage());
@@ -36,142 +61,87 @@ class PedidoClienteBuilderTest {
     }
 
     @Test
-    void deveRetornarPedidoValido() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder
+    void deveRetornarExcecaoParaPedidoSemPagamento() {
+        try {
+            PedidoClienteBuilder builder = new PedidoClienteBuilder();
+            builder.setNumeroPedido(101).setNomeCliente("Igor").build();
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertEquals("O pedido deve ter um método de pagamento", e.getMessage());
+        }
+    }
+
+    @Test
+    void deveConstruirPedidoComPagamentoViaFactoryMethod() {
+        PedidoCliente pedido = new PedidoClienteBuilder()
                 .setNumeroPedido(101)
-                .setNomeCliente("Igor Gabriel")
+                .setNomeCliente("Igor")
+                .setMetodoPagamento(pagamentoMock)
                 .build();
 
-        assertNotNull(pedido);
+        assertEquals("Pagamento via PIX efetivado", pedido.getMetodoPagamento().processar());
     }
 
     @Test
-    void deveConstruirPedidoComNumero() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").build();
+    void deveConstruirPedidoComLancheViaDecorator() {
+        // Integrando com Decorator
+        HamburguerBase base = new HamburguerBase(20.0f);
+        AdicionalBacon lancheComBacon = new AdicionalBacon(base);
+
+        PedidoCliente pedido = new PedidoClienteBuilder()
+                .setNumeroPedido(101)
+                .setNomeCliente("Igor")
+                .setMetodoPagamento(pagamentoMock)
+                .setLanchePrincipal(lancheComBacon)
+                .build();
+
+        assertEquals("Hambúrguer Base + Bacon", pedido.getLanchePrincipal().getDescricao());
+        assertEquals(25.0f, pedido.getLanchePrincipal().getPreco());
+    }
+
+    @Test
+    void deveConstruirPedidoComItensExtrasViaComposite() {
+        // Integrando com Composite
+        ItemIndividual batata = new ItemIndividual("Batata Frita Grande", 18);
+
+        PedidoCliente pedido = new PedidoClienteBuilder()
+                .setNumeroPedido(101)
+                .setNomeCliente("Igor")
+                .setMetodoPagamento(pagamentoMock)
+                .setItensExtras(batata)
+                .build();
+
+        assertEquals("Batata Frita Grande", pedido.getItensExtras().getDescricao());
+    }
+
+    @Test
+    void deveConstruirPedidoComDadosBasicos() {
+        PedidoCliente pedido = new PedidoClienteBuilder()
+                .setNumeroPedido(101)
+                .setNomeCliente("Igor")
+                .setMetodoPagamento(pagamentoMock)
+                .build();
+
         assertEquals(101, pedido.getNumeroPedido());
-    }
-
-    @Test
-    void deveConstruirPedidoComNomeCliente() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").build();
         assertEquals("Igor", pedido.getNomeCliente());
     }
 
     @Test
-    void deveConstruirPedidoComCpf() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setCpfCliente("111.222.333-44")
+    void deveConstruirPedidoComLancheClonadoEEnergiaDeAbstractFactory() throws CloneNotSupportedException {
+
+        ConfiguracaoRestaurante.getInstance().setAceitandoPedidos(true);
+        Lanche lancheAmigo = new AdicionalBacon(new AdicionalCheddar(new HamburguerBase(20.0f)));
+        Lanche meuLanche = lancheAmigo.clone();
+        hamburgueria.criacionais.abstractfactory.FabricaAbstrata fabricaDelivery = new hamburgueria.criacionais.abstractfactory.FabricaDelivery();
+
+        PedidoCliente pedido = new PedidoClienteBuilder()
+                .setNumeroPedido(2002)
+                .setNomeCliente("Igor Gabriel")
+                .setLanchePrincipal(meuLanche)
+                .setFabricaEmbalagem(fabricaDelivery)
                 .build();
-        assertEquals("111.222.333-44", pedido.getCpfCliente());
-    }
 
-    @Test
-    void deveConstruirPedidoComTelefone() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setTelefone("32 99999-9999").build();
-        assertEquals("32 99999-9999", pedido.getTelefone());
-    }
-
-    @Test
-    void deveConstruirPedidoComEmail() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setEmail("igor@email.com").build();
-        assertEquals("igor@email.com", pedido.getEmail());
-    }
-
-    @Test
-    void deveConstruirPedidoComEnderecoLogradouro() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setEnderecoLogradouro("Rua Central")
-                .build();
-        assertEquals("Rua Central", pedido.getEnderecoLogradouro());
-    }
-
-    @Test
-    void deveConstruirPedidoComEnderecoNumero() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setEnderecoNumero(150).build();
-        assertEquals(150, pedido.getEnderecoNumero());
-    }
-
-    @Test
-    void deveConstruirPedidoComEnderecoComplemento() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setEnderecoComplemento("Apto 202")
-                .build();
-        assertEquals("Apto 202", pedido.getEnderecoComplemento());
-    }
-
-    @Test
-    void deveConstruirPedidoComEnderecoBairro() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setEnderecoBairro("Centro").build();
-        assertEquals("Centro", pedido.getEnderecoBairro());
-    }
-
-    @Test
-    void deveConstruirPedidoComEnderecoCidade() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setEnderecoCidade("Juiz de Fora")
-                .build();
-        assertEquals("Juiz de Fora", pedido.getEnderecoCidade());
-    }
-
-    @Test
-    void deveConstruirPedidoComCep() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setCep("36000-000").build();
-        assertEquals("36000-000", pedido.getCep());
-    }
-
-    @Test
-    void deveConstruirPedidoComLanchePrincipal() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setLanchePrincipal("Double Bacon")
-                .build();
-        assertEquals("Double Bacon", pedido.getLanchePrincipal());
-    }
-
-    @Test
-    void deveConstruirPedidoComAdicionais() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setAdicionais("Cheddar Extra")
-                .build();
-        assertEquals("Cheddar Extra", pedido.getAdicionais());
-    }
-
-    @Test
-    void deveConstruirPedidoComBebida() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setBebida("Refrigerante Cola")
-                .build();
-        assertEquals("Refrigerante Cola", pedido.getBebida());
-    }
-
-    @Test
-    void deveConstruirPedidoComSobremesa() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setSobremesa("Sorvete Casquinha")
-                .build();
-        assertEquals("Sorvete Casquinha", pedido.getSobremesa());
-    }
-
-    @Test
-    void deveConstruirPedidoComMetodoPagamento() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor")
-                .setMetodoPagamento("Cartão de Crédito").build();
-        assertEquals("Cartão de Crédito", pedido.getMetodoPagamento());
-    }
-
-    @Test
-    void deveConstruirPedidoComObservacoes() {
-        PedidoClienteBuilder builder = new PedidoClienteBuilder();
-        PedidoCliente pedido = builder.setNumeroPedido(101).setNomeCliente("Igor").setObservacoes("Sem cebola e tomate")
-                .build();
-        assertEquals("Sem cebola e tomate", pedido.getObservacoes());
+        assertEquals("Hambúrguer Base + Cheddar + Bacon", pedido.getLanchePrincipal().getDescricao());
+        assertEquals("Lanche embalado na Caixa Térmica", pedido.getRecipienteLanche().embalar());
     }
 }

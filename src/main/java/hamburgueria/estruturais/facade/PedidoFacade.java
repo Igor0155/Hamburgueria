@@ -1,8 +1,10 @@
 package hamburgueria.estruturais.facade;
 
+import hamburgueria.criacionais.builder.PedidoCliente;
+
 public class PedidoFacade {
 
-    public static boolean verificarPendenciasLiberacao(Pedido pedido) {
+    public static boolean verificarPendenciasLiberacao(PedidoCliente pedido) {
         if (Cozinha.getInstancia().verificarPedidoComPendencia(pedido)) {
             return false;
         }

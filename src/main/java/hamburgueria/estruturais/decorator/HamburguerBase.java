@@ -1,11 +1,7 @@
 package hamburgueria.estruturais.decorator;
 
 public class HamburguerBase implements Lanche {
-
     public float preco;
-
-    public HamburguerBase() {
-    }
 
     public HamburguerBase(float preco) {
         this.preco = preco;
@@ -17,5 +13,10 @@ public class HamburguerBase implements Lanche {
 
     public String getDescricao() {
         return "Hambúrguer Base";
+    }
+
+    @Override
+    public Lanche clone() throws CloneNotSupportedException {
+        return (Lanche) super.clone();
     }
 }

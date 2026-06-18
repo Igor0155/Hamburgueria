@@ -1,5 +1,11 @@
 package hamburgueria.criacionais.builder;
 
+import hamburgueria.criacionais.abstractfactory.FabricaAbstrata;
+import hamburgueria.criacionais.factorymethod.IPagamento;
+import hamburgueria.criacionais.singleton.ConfiguracaoRestaurante;
+import hamburgueria.estruturais.composite.ItemCardapio;
+import hamburgueria.estruturais.decorator.Lanche;
+
 public class PedidoClienteBuilder {
 
     private PedidoCliente pedido;
@@ -9,11 +15,14 @@ public class PedidoClienteBuilder {
     }
 
     public PedidoCliente build() {
+        if (!ConfiguracaoRestaurante.getInstance().isAceitandoPedidos()) {
+            throw new IllegalStateException("Restaurante fechado!");
+        }
         if (pedido.getNumeroPedido() == 0) {
-            throw new IllegalArgumentException("Número do pedido inválido");
+            throw new IllegalArgumentException("Número inválido");
         }
         if (pedido.getNomeCliente().equals("")) {
-            throw new IllegalArgumentException("Nome do cliente inválido");
+            throw new IllegalArgumentException("Nome inválido");
         }
         return pedido;
     }
@@ -28,78 +37,25 @@ public class PedidoClienteBuilder {
         return this;
     }
 
-    public PedidoClienteBuilder setCpfCliente(String cpfCliente) {
-        pedido.setCpfCliente(cpfCliente);
-        return this;
-    }
-
-    public PedidoClienteBuilder setTelefone(String telefone) {
-        pedido.setTelefone(telefone);
-        return this;
-    }
-
-    public PedidoClienteBuilder setEmail(String email) {
-        pedido.setEmail(email);
-        return this;
-    }
-
-    public PedidoClienteBuilder setEnderecoLogradouro(String enderecoLogradouro) {
-        pedido.setEnderecoLogradouro(enderecoLogradouro);
-        return this;
-    }
-
-    public PedidoClienteBuilder setEnderecoNumero(int enderecoNumero) {
-        pedido.setEnderecoNumero(enderecoNumero);
-        return this;
-    }
-
-    public PedidoClienteBuilder setEnderecoComplemento(String enderecoComplemento) {
-        pedido.setEnderecoComplemento(enderecoComplemento);
-        return this;
-    }
-
-    public PedidoClienteBuilder setEnderecoBairro(String enderecoBairro) {
-        pedido.setEnderecoBairro(enderecoBairro);
-        return this;
-    }
-
-    public PedidoClienteBuilder setEnderecoCidade(String enderecoCidade) {
-        pedido.setEnderecoCidade(enderecoCidade);
-        return this;
-    }
-
-    public PedidoClienteBuilder setCep(String cep) {
-        pedido.setCep(cep);
-        return this;
-    }
-
-    public PedidoClienteBuilder setLanchePrincipal(String lanchePrincipal) {
-        pedido.setLanchePrincipal(lanchePrincipal);
-        return this;
-    }
-
-    public PedidoClienteBuilder setAdicionais(String adicionais) {
-        pedido.setAdicionais(adicionais);
-        return this;
-    }
-
-    public PedidoClienteBuilder setBebida(String bebida) {
-        pedido.setBebida(bebida);
-        return this;
-    }
-
-    public PedidoClienteBuilder setSobremesa(String sobremesa) {
-        pedido.setSobremesa(sobremesa);
-        return this;
-    }
-
-    public PedidoClienteBuilder setMetodoPagamento(String metodoPagamento) {
+    public PedidoClienteBuilder setMetodoPagamento(IPagamento metodoPagamento) {
         pedido.setMetodoPagamento(metodoPagamento);
         return this;
     }
 
-    public PedidoClienteBuilder setObservacoes(String observacoes) {
-        pedido.setObservacoes(observacoes);
+    public PedidoClienteBuilder setLanchePrincipal(Lanche lanche) {
+        pedido.setLanchePrincipal(lanche);
+        return this;
+    }
+
+    public PedidoClienteBuilder setItensExtras(ItemCardapio itensExtras) {
+        pedido.setItensExtras(itensExtras);
+        return this;
+    }
+
+    public PedidoClienteBuilder setFabricaEmbalagem(FabricaAbstrata fabrica) {
+        pedido.setRecipienteLanche(fabrica.createRecipienteLanche());
+        pedido.setRecipienteBebida(fabrica.createRecipienteBebida());
+        pedido.setTransportePedido(fabrica.createTransportePedido());
         return this;
     }
 }
