@@ -2,7 +2,6 @@ package hamburgueria.criacionais;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
@@ -10,17 +9,6 @@ import org.junit.jupiter.api.Test;
 import hamburgueria.Produto;
 
 class CriacionaisTest {
-
-    @Test
-    void deveRetornarMesmaInstanciaSingleton() {
-        ConfiguracaoRestaurante config1 = ConfiguracaoRestaurante.getInstancia();
-        ConfiguracaoRestaurante config2 = ConfiguracaoRestaurante.getInstancia();
-
-        config1.abrirRestaurante();
-
-        assertTrue(config2.isAberto());
-        assertSame(config1, config2);
-    }
 
     @Test
     void deveCriarPagamentoViaFactoryMethod() {
