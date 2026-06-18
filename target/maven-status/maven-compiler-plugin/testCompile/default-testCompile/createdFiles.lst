@@ -1,4 +1,4 @@
-hamburgueria\estruturais\EstruturaisTest.class
-hamburgueria\criacionais\CriacionaisTest.class
-hamburgueria\comportamentais\ComportamentaisTest.class
-hamburgueria\HamburgueriaIntegracaoTest.class
+hamburgueria\criacionais\builder\PedidoClienteBuilderTest.class
+hamburgueria\criacionais\singleton\ConfiguracaoRestauranteTest.class
+hamburgueria\estruturais\bridge\ModalidadeAtendimentoTest.class
+hamburgueria\criacionais\factorymethod\PagamentoFactoryTest.class
