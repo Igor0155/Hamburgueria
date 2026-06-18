@@ -1,4 +1,12 @@
+hamburgueria\criacionais\abstractfactory\FabricaAbstrataTest.class
 hamburgueria\criacionais\builder\PedidoClienteBuilderTest.class
-hamburgueria\criacionais\singleton\ConfiguracaoRestauranteTest.class
+hamburgueria\comportamentais\strategy\FechamentoPedidoTest.class
+hamburgueria\estruturais\adapter\MonitoramentoEntregaTest.class
+hamburgueria\estruturais\facade\PedidoFacadeTest.class
+hamburgueria\estruturais\proxy\RegistroPedidoProxyTest.class
 hamburgueria\estruturais\bridge\ModalidadeAtendimentoTest.class
+hamburgueria\estruturais\composite\PedidoTest.class
 hamburgueria\criacionais\factorymethod\PagamentoFactoryTest.class
+hamburgueria\estruturais\flyweight\OrdemPreparoFlyweightTest.class
+hamburgueria\criacionais\singleton\ConfiguracaoRestauranteTest.class
+hamburgueria\estruturais\decorator\LancheTest.class

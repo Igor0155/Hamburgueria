@@ -15,14 +15,18 @@ public class PedidoClienteBuilder {
     }
 
     public PedidoCliente build() {
+        // Validações com as strings exatas que os testes esperam
         if (!ConfiguracaoRestaurante.getInstance().isAceitandoPedidos()) {
-            throw new IllegalStateException("Restaurante fechado!");
+            throw new IllegalStateException("O restaurante está fechado. Não é possível criar pedidos.");
         }
         if (pedido.getNumeroPedido() == 0) {
-            throw new IllegalArgumentException("Número inválido");
+            throw new IllegalArgumentException("Número do pedido inválido");
         }
         if (pedido.getNomeCliente().equals("")) {
-            throw new IllegalArgumentException("Nome inválido");
+            throw new IllegalArgumentException("Nome do cliente inválido");
+        }
+        if (pedido.getMetodoPagamento() == null) {
+            throw new IllegalArgumentException("O pedido deve ter um método de pagamento");
         }
         return pedido;
     }

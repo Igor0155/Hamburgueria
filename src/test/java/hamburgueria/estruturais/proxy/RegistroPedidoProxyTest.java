@@ -1,5 +1,13 @@
 package hamburgueria.estruturais.proxy;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import hamburgueria.criacionais.builder.PedidoCliente;
 import hamburgueria.criacionais.builder.PedidoClienteBuilder;
 import hamburgueria.criacionais.factorymethod.IPagamento;
@@ -8,10 +16,6 @@ import hamburgueria.criacionais.singleton.ConfiguracaoRestaurante;
 import hamburgueria.estruturais.decorator.AdicionalBacon;
 import hamburgueria.estruturais.decorator.HamburguerBase;
 import hamburgueria.estruturais.decorator.Lanche;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RegistroPedidoProxyTest {
 
@@ -36,10 +40,6 @@ class RegistroPedidoProxyTest {
         // Salva o objeto monstruoso no banco
         BancoDeDadosPedidos.addPedido(pedido);
     }
-
-    // ==========================================
-    // TESTES DE ACESSO PÚBLICO (Proxy)
-    // ==========================================
 
     @Test
     void deveRetornarDadosDeEntregaParaQualquerPessoa() {

@@ -128,16 +128,24 @@ class PedidoClienteBuilderTest {
 
     @Test
     void deveConstruirPedidoComLancheClonadoEEnergiaDeAbstractFactory() throws CloneNotSupportedException {
-
+        // 1. Singleton aberto
         ConfiguracaoRestaurante.getInstance().setAceitandoPedidos(true);
+
+        // 2. Um cliente criou um lanche complexo (Decorator)
         Lanche lancheAmigo = new AdicionalBacon(new AdicionalCheddar(new HamburguerBase(20.0f)));
+
+        // 3. Eu quero o mesmo lanche! (Prototype)
         Lanche meuLanche = lancheAmigo.clone();
+
+        // 4. Abstract Factory de Delivery
         hamburgueria.criacionais.abstractfactory.FabricaAbstrata fabricaDelivery = new hamburgueria.criacionais.abstractfactory.FabricaDelivery();
 
+        // 5. O Builder orquestrando tudo
         PedidoCliente pedido = new PedidoClienteBuilder()
                 .setNumeroPedido(2002)
                 .setNomeCliente("Igor Gabriel")
                 .setLanchePrincipal(meuLanche)
+                .setMetodoPagamento(pagamentoMock) // <--- AQUI ESTÁ A CORREÇÃO! A trava de segurança agora vai liberar.
                 .setFabricaEmbalagem(fabricaDelivery)
                 .build();
 
